@@ -40,6 +40,11 @@ mem_check: build_debug
 	@echo [DEBUG] Generating Memory Leak Summary ...
 	@valgrind --tool=memcheck -s --leak-check=full --track-origins=yes $(BUILD_RUN) $(RUNTIME_ARGS)
 
+run:
+	@echo [INFO] Running ...
+	@$(BUILD_RUN)
+	@echo [EXEC] Complete!
+
 .PHONY: clean
 clean:
 	@echo [INFO] Removing Pre-Compiled Object Files ...
