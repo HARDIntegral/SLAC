@@ -52,4 +52,6 @@ Mkfile.old
 dkms.conf
 
 # Other things
+bin/
 .tmp_data
+-c
