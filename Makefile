@@ -4,16 +4,21 @@ DEBUG_FLAGS := -g -O0 -Wall -Wextra
 RELEASE_FLAGS := -O3 -DNDEBUG
 SRC_DIR := src/
 OBJ_DIR := bin/obj/
+TEST_BUILD_DIR := bin/tests/
 EXEC_DIR := bin/
-EXEC_NAME := slac
+EXEC_NAME := libslac
 BUILD_TARGET := a
+EXEC_TARGET := .out
 RUNTIME_ARGS :=
 
 EXEC := $(EXEC_NAME).$(BUILD_TARGET)
 BUILD := $(EXEC_DIR)$(EXEC)
-BUILD_RUN := $(EXEC_DIR)./$(EXEC)
+TEST_BUILD := $(TEST_BUILD_DIR)test$(EXEC_TARGET)
+TEST_RUN := $(TEST_BUILD_DIR)./test$(EXEC_TARGET)
+
 SRCS := $(wildcard $(SRC_DIR)**/**$(FILE_TYPE)) $(wildcard $(SRC_DIR)*$(FILE_TYPE))
 OBJS := $(patsubst $(SRC_DIR)%$(FILE_TYPE), $(OBJ_DIR)%.o, $(SRCS))
+TESTS := tests/test.c
 
 build_debug: $(OBJS)
 	@echo "D" > .tmp_data
@@ -31,15 +36,21 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%$(FILE_TYPE)
 	@echo [CC] $<
 	@mkdir -p $(@D)
 ifeq ($(shell cat .tmp_data),D)
-	@$(CC) $(DEBUG_FLAGS) $< -c -o $@
+	@$(CC) $(DEBUG_FLAGS) $< -c -o $@ -I headers
 else
-	@$(CC) $(RELEASE_FLAGS) $< -c -o $@
+	@$(CC) $(RELEASE_FLAGS) $< -c -o $@ -I headers
 endif
 
-run:
-	@echo [INFO] Running ...
-	@$(BUILD_RUN)
+run_test: build_test
+	@echo [INFO] Running Tests ...
+	@$(TEST_RUN)
 	@echo [EXEC] Complete!
+
+build_test: $(TESTS) $(BUILD)
+	@echo [INFO] Building Tests ...
+	@mkdir -p $(TEST_BUILD_DIR)
+	@$(CC) -o $(TEST_BUILD) $^ -lslac -L bin -I headers
+	@echo [INFO] Tests Generated!
 
 .PHONY: clean
 clean:
