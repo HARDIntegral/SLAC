@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "slac.h"
 
 int test_matrix_contruction() {
@@ -6,7 +7,8 @@ int test_matrix_contruction() {
 	int values[] = {1, 6, 2, 0, 5, 3};
 	// |1 2 5|
 	// |6 0 3|
-	matrix_kill(matrix_construct(dims, values));
+	matrix* tm = matrix_construct(dims, values);
+	free(tm);
 	return 1;
 }
 

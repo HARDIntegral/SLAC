@@ -60,7 +60,11 @@ run_test: build_test
 build_test: $(TESTS) $(BUILD)
 	@echo [INFO] Building Tests ...
 	@mkdir -p $(TEST_BUILD_DIR)
+ifeq ($(shell cat .tmp_data),D)
+	@$(CC) -o $(TEST_BUILD) -g $^ -lslac -L bin -I headers
+else
 	@$(CC) -o $(TEST_BUILD) $^ -lslac -L bin -I headers
+endif
 	@echo [INFO] Tests Generated!
 
 .PHONY: clean
