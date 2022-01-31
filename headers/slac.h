@@ -1,7 +1,6 @@
 #ifndef SLAC_H
 #define SLAC_H
 
-int slac_init();
-int slac_kill();
+#include "matrix.h"
 
 #endif //SLAC_H
