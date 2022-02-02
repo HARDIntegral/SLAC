@@ -1,6 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <malloc.h>
+
 typedef struct matrix {
 	int* dims; 
 	int* values;
