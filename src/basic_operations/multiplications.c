@@ -28,11 +28,8 @@ matrix* transform(matrix* transformation_matrix, matrix* current) {
 		for (int i=0; i<transformation_matrix->dims[1]; i++)
 			tmp_row[i] = transformation_matrix->values[r+i*transformation_matrix->dims[0]];
 
-		new_vals[i] = dot_product(tmp_row, tmp_col, current->dims[1]);
+		new_vals[i] = dot_product(tmp_row, tmp_col, current->dims[0]);
 	}
-
-	free(tmp_row);	tmp_row=NULL;
-	free(tmp_col);	tmp_col=NULL;
 
 	return matrix_construct(new_dims, new_vals);
 }
